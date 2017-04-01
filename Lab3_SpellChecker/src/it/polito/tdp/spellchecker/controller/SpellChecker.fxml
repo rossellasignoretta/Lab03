@@ -16,13 +16,13 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <HBox>
+            <HBox alignment="CENTER">
                <children>
                   <Label prefHeight="17.0" prefWidth="126.0" text="Choose the language:" />
                   <ComboBox fx:id="cmb" prefWidth="150.0" />
                </children>
             </HBox>
-            <TextArea fx:id="inputArea" prefHeight="171.0" prefWidth="485.0">
+            <TextArea fx:id="inputArea">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></TextArea>
@@ -40,7 +40,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Label>
-            <TextArea fx:id="outputArea" prefHeight="168.0" prefWidth="485.0" />
+            <TextArea fx:id="outputArea" editable="false" />
             <HBox alignment="BOTTOM_RIGHT" prefHeight="34.0" prefWidth="485.0">
                <children>
                   <Label fx:id="txtNum">

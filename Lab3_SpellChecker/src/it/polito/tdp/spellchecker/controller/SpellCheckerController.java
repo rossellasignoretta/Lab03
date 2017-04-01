@@ -41,21 +41,36 @@ public class SpellCheckerController {
     	assert txtNum != null : "fx:id=\"txtNum\" was not injected: check your FXML file 'SpellChecker.fxml'.";
     	cmb.getItems().addAll("Italiano", "English");
     	d= new Dictionary();
+    	outputArea.setDisable(true);
     }
   
     
     @FXML
     void doSpellCheck(ActionEvent event) {
-    	List <String> input= new ArrayList<String>();
+    	outputArea.setDisable(false);
+    	inputArea.setDisable(true);
+    	btnSpell.setDisable(true);
+    	cmb.setDisable(true);
+    	
     	String lingua=cmb.getValue();
-    	String[] testo=inputArea.getText().toLowerCase().split(" ");
-    	 
-    	for (String temp: testo){
-    		input.add(temp);
-    	}
+    	if (lingua==null){
+    		outputArea.setText("Choose a language!\n");
+    		return;
+    		}
     	d.loadDictionary(lingua);
     	
+    	
+    	String[] testo=inputArea.getText().toLowerCase().split(" ");
+    	
+    	List <String> input= new ArrayList<String>();    	 
+    	for (String temp: testo){
+    		input.add(temp.replaceAll("[ \\p{Punct}]", ""));
+    	}
+    		
+    	
     	int contatore=0;
+    	
+    	Long t1= System.nanoTime();
     	List <RichWord> output=d.spellCheckText(input);
     	for (RichWord richWord : output) {
 			if(!richWord.isCorretta()){
@@ -63,13 +78,21 @@ public class SpellCheckerController {
 				contatore++;
 			}
 		}
+    	Long t2= System.nanoTime();
+
     	txtNum.setText("The text contains "+contatore+" errors");
-    	txtTime.setText("Spell check completed in "+System.currentTimeMillis()/1000+"seconds");
+    	txtTime.setText("Spell check completed in "+(t2-t1)/1e9+"seconds");
     	   	
     }
     
     @FXML
     void doClearText(ActionEvent event) {
+    	inputArea.setDisable(false);
+    	outputArea.setDisable(true);
+    	btnSpell.setDisable(false);
+    	cmb.setDisable(false);
+
+
     	inputArea.clear();
     	outputArea.clear();
     	d.clear();
